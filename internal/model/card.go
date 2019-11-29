@@ -5,9 +5,10 @@ import (
 )
 
 type Card struct {
-	ID      int    `json:"id"`
-	Word    string `json:"word"`
-	Meaning string `json:"meaning"`
+	ID              int     `json:"id"`
+	Word            string  `json:"word"`
+	Meaning         string  `json:"meaning"`
+	RecognitionRate float32 `json:"recognition_rate"`
 }
 
 func (c *Card) Validate() error {

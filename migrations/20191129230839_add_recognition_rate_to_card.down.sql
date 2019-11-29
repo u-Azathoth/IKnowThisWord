@@ -1,0 +1,1 @@
+ALTER TABLE card DROP COLUMN IF EXISTS recognition_rate;
