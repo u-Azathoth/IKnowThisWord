@@ -12,13 +12,13 @@ type Server struct {
 	store  store.Store
 }
 
-func New(store store.Store) (*Server, error) {
+func New(store store.Store, staticPath *string) (*Server, error) {
 	s := &Server{
 		router: mux.NewRouter(),
 		store:  store,
 	}
 
-	s.SetupRoutes()
+	s.SetupRoutes(staticPath)
 
 	return s, nil
 }

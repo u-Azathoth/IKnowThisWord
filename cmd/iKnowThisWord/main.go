@@ -11,10 +11,12 @@ import (
 
 var (
 	configPath string
+	staticPath string
 )
 
 func init() {
 	flag.StringVar(&configPath, "config-path", "configs/env.toml", "path to a config file")
+	flag.StringVar(&staticPath, "static-path", "web/build", "path to a web dist folder")
 }
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 
 	// Server and Store
 	store := postgres.NewStore(db)
-	s, _ := server.New(store)
+	s, _ := server.New(store, &staticPath)
 
 	err = http.ListenAndServe(config.BindAddr, s)
 	CheckError(err)
