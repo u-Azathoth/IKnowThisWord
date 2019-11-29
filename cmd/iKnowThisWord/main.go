@@ -1,10 +1,10 @@
 package main
 
 import (
-	server "eng-cards/internal"
-	"eng-cards/internal/store/postgres"
 	"flag"
 	"github.com/BurntSushi/toml"
+	server "iKnowThisWord/internal"
+	"iKnowThisWord/internal/store/postgres"
 	"log"
 	"net/http"
 )

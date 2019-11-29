@@ -2,7 +2,7 @@ package server
 
 import (
 	"encoding/json"
-	"eng-cards/internal/model"
+	"iKnowThisWord/internal/model"
 	"net/http"
 )
 

@@ -1,4 +1,4 @@
-module eng-cards
+module iKnowThisWord
 
 go 1.13
 

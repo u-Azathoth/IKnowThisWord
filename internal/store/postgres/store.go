@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"database/sql"
-	"eng-cards/internal/store"
+	"iKnowThisWord/internal/store"
 )
 
 type Store struct {

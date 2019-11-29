@@ -2,8 +2,8 @@ package server
 
 import (
 	"encoding/json"
-	"eng-cards/internal/store"
 	"github.com/gorilla/mux"
+	"iKnowThisWord/internal/store"
 	"net/http"
 )
 

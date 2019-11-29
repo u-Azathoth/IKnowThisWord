@@ -1,6 +1,6 @@
 package store
 
-import "eng-cards/internal/model"
+import "iKnowThisWord/internal/model"
 
 type CardRepository interface {
 	Save(*model.Card) error

@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"eng-cards/internal/model"
+	"iKnowThisWord/internal/model"
 )
 
 type CardRepository struct {
