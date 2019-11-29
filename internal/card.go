@@ -42,6 +42,11 @@ func (s *Server) handleCardSave() http.HandlerFunc {
 			Meaning: req.Meaning,
 		}
 
+		if err := c.Validate(); err != nil {
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+
 		if err := s.store.Card().Save(c); err != nil {
 			s.error(w, r, http.StatusUnprocessableEntity, err)
 			return
