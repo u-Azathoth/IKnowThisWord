@@ -7,6 +7,7 @@ func (s *Server) SetupRoutes(staticPath *string) {
 
 	api.HandleFunc("/cards", s.handleCardFind()).Methods("GET")
 	api.HandleFunc("/cards/{id}", s.handleCardFindById()).Methods("GET")
+	api.HandleFunc("/cards/{id}", s.handleCardDelete()).Methods("DELETE")
 	api.HandleFunc("/cards", s.handleCardSave()).Methods("POST")
 
 	s.router.PathPrefix("/").Handler(

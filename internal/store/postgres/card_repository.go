@@ -36,6 +36,10 @@ func (c *CardRepository) Find() ([]*model.Card, error) {
 	return cards, nil
 }
 
+func (c *CardRepository) FindById(string) (*model.Card, error) {
+	panic("implement me")
+}
+
 func (c *CardRepository) Save(card *model.Card) error {
 	return c.store.db.QueryRow(
 		"INSERT INTO card (word, meaning) VALUES ($1, $2) returning id",
@@ -44,6 +48,16 @@ func (c *CardRepository) Save(card *model.Card) error {
 	).Scan(&card.ID)
 }
 
-func (c *CardRepository) FindById(string) (*model.Card, error) {
-	panic("implement me")
+func (c *CardRepository) Delete(id int) (int, error) {
+	res, err := c.store.db.Exec("DELETE FROM card WHERE card.id = $1", id)
+	if err != nil {
+		return 0, err
+	}
+
+	rowsDeleted, err := res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(rowsDeleted), nil
 }

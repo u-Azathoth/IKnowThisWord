@@ -2,8 +2,11 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
+	"github.com/gorilla/mux"
 	"iKnowThisWord/internal/model"
 	"net/http"
+	"strconv"
 )
 
 func (s *Server) handleCardFind() http.HandlerFunc {
@@ -53,6 +56,31 @@ func (s *Server) handleCardSave() http.HandlerFunc {
 		}
 
 		s.respond(w, r, http.StatusCreated, c.ID)
+	}
+}
+
+func (s *Server) handleCardDelete() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		id, err := strconv.Atoi(vars["id"])
+		if err != nil {
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+
+		n, err := s.store.Card().Delete(id)
+
+		if err == nil {
+			if n > 0 {
+				s.respond(w, r, http.StatusOK, n)
+				return
+			}
+
+			s.error(w, r, http.StatusNotFound, errors.New(http.StatusText(http.StatusNotFound)))
+			return
+		}
+
+		s.error(w, r, http.StatusUnprocessableEntity, err)
 	}
 }
 
