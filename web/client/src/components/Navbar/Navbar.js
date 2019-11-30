@@ -1,32 +1,38 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useHistory, useLocation } from "react-router-dom";
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
-function a11yProps(index) {
-    return {
-        id: `nav-tab-${index}`,
-        'aria-controls': `nav-tabpanel-${index}`,
-    };
-}
+const a11yProps = index => ({
+    id: `nav-tab-${index}`,
+    'aria-controls': `nav-tabpanel-${index}`,
+});
 
-function LinkTab(props) {
-    return (
-        <Tab
-            component="a"
-            onClick={event => {
-                event.preventDefault();
-            }}
-            {...props}
-        />
-    );
-}
+const StyledTabs = withStyles({
+    indicator: {
+        backgroundColor: 'green'
+    },
+})(props => <Tabs {...props} TabIndicatorProps={{children: <div/>}}/>);
+
+const StyledTab = withStyles(theme => ({
+    root: {
+        '&$selected': {
+            color: '#fff',
+            fontWeight: theme.typography.fontWeightMedium,
+        },
+    },
+    selected: {},
+}))(props => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
+    },
+    wrapper: {
+        color: "hsla(0,0%,100%,.7)",
+        backgroundColor: "#24292e"
     },
 }));
 
@@ -45,14 +51,14 @@ export default function Navbar() {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Tabs
-                    variant="fullWidth"
-                    value={value}
-                    onChange={handleChange}
+                <StyledTabs variant="fullWidth"
+                            value={value}
+                            onChange={handleChange}
+                            className={classes.wrapper}
                 >
-                    <LinkTab label="Vocabulary" value="/vocabulary" {...a11yProps(0)} />
-                    <LinkTab label="Revision" value="/revision" {...a11yProps(1)} />
-                </Tabs>
+                    <StyledTab label="Vocabulary" value="/vocabulary" {...a11yProps(0)} />
+                    <StyledTab label="Revision" value="/revision" {...a11yProps(1)} />
+                </StyledTabs>
             </AppBar>
         </div>
     );
