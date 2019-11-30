@@ -5,6 +5,11 @@ import Vocabulary from "../../pages/Vocabulary/Vocabulary";
 import Revision from "../../pages/Revision/Revision";
 import Navbar from "../Navbar/Navbar";
 
+const routes = [
+    { path: '/vocabulary', component: Vocabulary },
+    { path: '/revision', component: Revision },
+];
+
 function App() {
     return (
         <BrowserRouter>
@@ -15,8 +20,9 @@ function App() {
                     <Redirect to="/vocabulary"/>
                 </Route>
 
-                <Route path="/vocabulary" component={Vocabulary} exact/>
-                <Route path="/revision" component={Revision} exact/>
+                {routes.map(({path, component}) => (
+                    <Route key={path} path={path} component={component}/>
+                ))}
             </Switch>
         </BrowserRouter>
     );
