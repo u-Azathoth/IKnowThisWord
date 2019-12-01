@@ -41,7 +41,13 @@ export default function Navbar() {
     const history = useHistory();
     const location = useLocation();
 
-    const [value, setValue] = React.useState(location.pathname);
+    const tabs = [
+        ['Vocabulary', '/vocabulary'],
+        ['Revision', '/revision'],
+    ];
+
+    const isExistPath = tabs.map(([_, path]) => path).includes(location.pathname);
+    const [value, setValue] = React.useState(isExistPath ? location.pathname : tabs[0][1]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -51,14 +57,17 @@ export default function Navbar() {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <StyledTabs variant="fullWidth"
-                            value={value}
-                            onChange={handleChange}
-                            className={classes.wrapper}
-                >
-                    <StyledTab label="Vocabulary" value="/vocabulary" {...a11yProps(0)} />
-                    <StyledTab label="Revision" value="/revision" {...a11yProps(1)} />
-                </StyledTabs>
+                {
+                    <StyledTabs variant="fullWidth"
+                                value={value}
+                                onChange={handleChange}
+                                className={classes.wrapper}
+                    >
+                        {tabs.map(([label, path], index) => (
+                            <StyledTab label={label} value={path} {...a11yProps(index)} key={path}/>
+                        ))}
+                    </StyledTabs>
+                }
             </AppBar>
         </div>
     );
