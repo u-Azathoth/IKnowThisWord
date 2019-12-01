@@ -12,18 +12,21 @@ import (
 func (s *Server) handleCardFind() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cards, err := s.store.Card().Find()
-		// TODO: Add the custom type of error for NotFoundError
-		checkHttpError(err, w)
+		if err != nil {
+			s.error(w, r, http.StatusUnprocessableEntity, err)
+		}
 
 		s.respond(w, r, http.StatusOK, cards)
 	}
 }
 
-func (s *Server) handleCardFindById() http.HandlerFunc {
+func (s *Server) handleCardFindByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, err := w.Write([]byte("The get all cards functionality hasn't implemented yet"))
 
-		checkHttpError(err, w)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -81,12 +84,5 @@ func (s *Server) handleCardDelete() http.HandlerFunc {
 		}
 
 		s.error(w, r, http.StatusUnprocessableEntity, err)
-	}
-}
-
-// TODO: Remove
-func checkHttpError(err error, w http.ResponseWriter) {
-	if err != nil {
-		http.Error(w, "Something went wrong", 500)
 	}
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/BurntSushi/toml"
+	"github.com/gorilla/handlers"
 	server "iKnowThisWord/internal"
 	"iKnowThisWord/internal/store/postgres"
 	"log"
@@ -28,7 +29,7 @@ func main() {
 	CheckError(err)
 
 	// Database
-	db, err := postgres.NewDB(config.DatabaseUrl)
+	db, err := postgres.NewDB(config.DatabaseURL)
 	CheckError(err)
 	defer db.Close()
 
@@ -36,10 +37,15 @@ func main() {
 	store := postgres.NewStore(db)
 	s, _ := server.New(store, &staticPath)
 
-	err = http.ListenAndServe(config.BindAddr, s)
+	err = http.ListenAndServe(config.BindAddr, handlers.CORS(
+		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		handlers.AllowedOrigins([]string{"*"}),
+	)(s.Router))
+
 	CheckError(err)
 }
 
+// CheckError ...
 func CheckError(err error) {
 	if err != nil {
 		log.Fatal(err)

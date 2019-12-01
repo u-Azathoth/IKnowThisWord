@@ -7,24 +7,22 @@ import (
 	"net/http"
 )
 
+// Server ...
 type Server struct {
-	router *mux.Router
+	Router *mux.Router
 	store  store.Store
 }
 
+// New ...
 func New(store store.Store, staticPath *string) (*Server, error) {
 	s := &Server{
-		router: mux.NewRouter(),
+		Router: mux.NewRouter(),
 		store:  store,
 	}
 
-	s.SetupRoutes(staticPath)
+	s.ConfigureRouter(staticPath)
 
 	return s, nil
-}
-
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s.router.ServeHTTP(w, r)
 }
 
 func (s *Server) error(w http.ResponseWriter, r *http.Request, code int, err error) {

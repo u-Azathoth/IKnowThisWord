@@ -1,16 +1,25 @@
 package server
 
-import "net/http"
+import (
+	"github.com/gorilla/mux"
+	"net/http"
+)
 
-func (s *Server) SetupRoutes(staticPath *string) {
-	api := s.router.PathPrefix("/api").Subrouter()
+// ConfigureRouter ...
+func (s *Server) ConfigureRouter(staticPath *string) {
+	s.Router.Use(mux.CORSMethodMiddleware(s.Router))
+	s.setupRoutes(staticPath)
+}
+
+func (s *Server) setupRoutes(staticPath *string) {
+	api := s.Router.PathPrefix("/api").Subrouter()
 
 	api.HandleFunc("/cards", s.handleCardFind()).Methods("GET")
-	api.HandleFunc("/cards/{id}", s.handleCardFindById()).Methods("GET")
+	api.HandleFunc("/cards/{id}", s.handleCardFindByID()).Methods("GET")
 	api.HandleFunc("/cards/{id}", s.handleCardDelete()).Methods("DELETE")
 	api.HandleFunc("/cards", s.handleCardSave()).Methods("POST")
 
-	s.router.PathPrefix("/").Handler(
+	s.Router.PathPrefix("/").Handler(
 		http.StripPrefix("/", http.FileServer(http.Dir(*staticPath))),
 	)
 }

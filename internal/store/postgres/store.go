@@ -7,19 +7,19 @@ import (
 
 type Store struct {
 	db             *sql.DB
-	userRepository *CardRepository
+	cardRepository *CardRepository
 }
 
 func (s *Store) Card() store.CardRepository {
-	if s.userRepository != nil {
-		return s.userRepository
+	if s.cardRepository != nil {
+		return s.cardRepository
 	}
 
-	s.userRepository = &CardRepository{
+	s.cardRepository = &CardRepository{
 		store: s,
 	}
 
-	return s.userRepository
+	return s.cardRepository
 }
 
 func NewStore(db *sql.DB) *Store {
