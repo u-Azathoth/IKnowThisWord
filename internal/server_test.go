@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 var s *server.Server = &server.Server{}
@@ -73,7 +74,7 @@ func seedCards(count int) error {
 	}
 
 	for i := 0; i < count; i++ {
-		err = store.Card().Save(testCard(i))
+		err = store.Card().Save(testCard())
 		if err != nil {
 			return err
 		}
@@ -97,7 +98,9 @@ func seedCard() (int, error) {
 	return c.ID, nil
 }
 
-func testCard(uniqueID ...int) *model.Card {
+func testCard() *model.Card {
+	uniqueID := time.Now().UnixNano()
+
 	return &model.Card{
 		Word:    fmt.Sprint("consider", uniqueID),
 		Meaning: "deem to be",

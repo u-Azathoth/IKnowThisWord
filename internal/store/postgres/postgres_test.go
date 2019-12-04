@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq"
 	server "iKnowThisWord/internal"
 	"path/filepath"
+	"time"
 
 	"iKnowThisWord/internal/model"
 	"iKnowThisWord/internal/store/postgres"
@@ -66,7 +67,7 @@ func seedCard() (*model.Card, error) {
 		return nil, err
 	}
 
-	c := testCard(0)
+	c := testCard()
 
 	err = store.Card().Save(c)
 	if err != nil {
@@ -83,7 +84,7 @@ func seedCards(count int) error {
 	}
 
 	for i := 0; i < count; i++ {
-		err = store.Card().Save(testCard(i))
+		err = store.Card().Save(testCard())
 		if err != nil {
 			return err
 		}
@@ -92,7 +93,9 @@ func seedCards(count int) error {
 	return nil
 }
 
-func testCard(uniqueID ...int) *model.Card {
+func testCard() *model.Card {
+	uniqueID := time.Now().UnixNano()
+
 	return &model.Card{
 		Word:    fmt.Sprint("consider", uniqueID),
 		Meaning: "deem to be",

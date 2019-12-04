@@ -128,7 +128,7 @@ func TestServer_HandleCardFindByID(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	c := testCard(1)
+	c := testCard()
 
 	_, err = store.Card().FindByID(strconv.Itoa(c.ID))
 	assert.EqualError(t, err, ErrRecordNotFound.Error())
