@@ -8,4 +8,8 @@ test:
 	@echo "Run tests"
 	go test -v -race -cover -timeout 30s ./...
 
+testci:
+	@echo "Run CI tests"
+	go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
 .DEFAULT_GOAL := build
