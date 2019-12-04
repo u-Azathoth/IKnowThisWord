@@ -1,2 +1,2 @@
 # IKnowThisWord
-A platform for remembering and revisioning words.
+A platform for remembering your words.
