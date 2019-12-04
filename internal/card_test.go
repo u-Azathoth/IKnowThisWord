@@ -3,6 +3,7 @@ package server_test
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"iKnowThisWord/internal/model"
 	"net/http"
@@ -85,4 +86,37 @@ func TestServer_HandleCardSave(t *testing.T) {
 			assert.NotEmpty(t, decodedMap["error"])
 		}
 	}
+}
+
+func TestServer_HandleCardDelete(t *testing.T) {
+	id, err := seedCard()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	type deleteCardTest struct {
+		id   int
+		code int
+	}
+
+	deleteCardTests := []*deleteCardTest{
+		{id, http.StatusOK},
+		{id - 1, http.StatusNotFound},
+	}
+
+	for _, tc := range deleteCardTests {
+		req, err := http.NewRequest(http.MethodDelete, "/api/cards", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		req = mux.SetURLVars(req, map[string]string{"id": strconv.Itoa(id)})
+		rr := httptest.NewRecorder()
+
+		handler := s.HandleCardDelete()
+		handler.ServeHTTP(rr, req)
+
+		assert.Equal(t, rr.Code, tc.code)
+	}
+
 }

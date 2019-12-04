@@ -16,7 +16,7 @@ func (s *Server) setupRoutes(staticPath *string) {
 
 	api.HandleFunc("/cards", s.HandleCardFind()).Methods("GET")
 	api.HandleFunc("/cards/{id}", s.handleCardFindByID()).Methods("GET")
-	api.HandleFunc("/cards/{id}", s.handleCardDelete()).Methods("DELETE")
+	api.HandleFunc("/cards/{id}", s.HandleCardDelete()).Methods("DELETE")
 	api.HandleFunc("/cards", s.HandleCardSave()).Methods("POST")
 
 	s.Router.PathPrefix("/").Handler(

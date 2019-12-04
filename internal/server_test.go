@@ -67,6 +67,21 @@ func seedCards(count int) error {
 	return nil
 }
 
+func seedCard() (int, error) {
+	err := refreshCardTable()
+	if err != nil {
+		return 0, err
+	}
+
+	c := testCard(1)
+	err = store.Card().Save(c)
+	if err != nil {
+		return 0, err
+	}
+
+	return c.ID, nil
+}
+
 func testCard(uniqueId ...int) *model.Card {
 	return &model.Card{
 		Word:    fmt.Sprint("consider", uniqueId),
