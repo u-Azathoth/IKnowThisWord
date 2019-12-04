@@ -29,6 +29,10 @@ func TestServer_HandleCardFind(t *testing.T) {
 	fmt.Println(len(cards))
 	fmt.Println(cards)
 
+	for _, c := range cards {
+		fmt.Println(c)
+	}
+
 	//req, err := http.NewRequest(http.MethodGet, "/api/cards", nil)
 	//if err != nil {
 	//	t.Error(err)
