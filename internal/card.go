@@ -20,13 +20,17 @@ func (s *Server) HandleCardFind() http.HandlerFunc {
 	}
 }
 
-func (s *Server) handleCardFindByID() http.HandlerFunc {
+func (s *Server) HandleCardFindByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		_, err := w.Write([]byte("The get all cards functionality hasn't implemented yet"))
+		vars := mux.Vars(r)
+		idStr := vars["id"]
 
+		c, err := s.store.Card().FindById(idStr)
 		if err != nil {
-			panic(err)
+			s.error(w, r, http.StatusUnprocessableEntity, err)
 		}
+
+		s.respond(w, r, http.StatusOK, c)
 	}
 }
 

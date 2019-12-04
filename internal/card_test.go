@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"iKnowThisWord/internal/model"
+	. "iKnowThisWord/internal/store"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -119,4 +120,26 @@ func TestServer_HandleCardDelete(t *testing.T) {
 		assert.Equal(t, rr.Code, tc.code)
 	}
 
+}
+
+func TestServer_HandleCardFindByID(t *testing.T) {
+	err := refreshCardTable()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c := testCard(1)
+
+	_, err = store.Card().FindById(strconv.Itoa(c.ID))
+	assert.EqualError(t, err, ErrRecordNotFound.Error())
+
+	err = store.Card().Save(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	result, err := store.Card().FindById(strconv.Itoa(c.ID))
+	assert.NoError(t, err)
+	assert.NotNil(t, result)
+	assert.Equal(t, result.Word, c.Word)
 }

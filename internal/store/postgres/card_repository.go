@@ -1,7 +1,9 @@
 package postgres
 
 import (
+	"database/sql"
 	"iKnowThisWord/internal/model"
+	"iKnowThisWord/internal/store"
 )
 
 type CardRepository struct {
@@ -37,8 +39,21 @@ func (c *CardRepository) Find() ([]*model.Card, error) {
 	return cards, nil
 }
 
-func (c *CardRepository) FindById(string) (*model.Card, error) {
-	panic("implement me")
+func (c *CardRepository) FindById(id string) (*model.Card, error) {
+	card := &model.Card{}
+
+	err := c.store.DB.QueryRow(
+		"SELECT id, word, meaning, recognition_rate from card where card.id = $1", id,
+	).Scan(&card.ID, &card.Word, &card.Meaning, &card.RecognitionRate)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, store.ErrRecordNotFound
+		}
+
+		return nil, err
+	}
+
+	return card, nil
 }
 
 func (c *CardRepository) Save(card *model.Card) error {
