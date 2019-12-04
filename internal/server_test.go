@@ -3,11 +3,13 @@ package server_test
 import (
 	"database/sql"
 	"fmt"
+	"github.com/joho/godotenv"
 	server "iKnowThisWord/internal"
 	"iKnowThisWord/internal/model"
 	"iKnowThisWord/internal/store/postgres"
 	"log"
 	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -17,7 +19,13 @@ var store = &postgres.Store{}
 func TestMain(m *testing.M) {
 	var err error
 
-	Database()
+	absPath, _ := filepath.Abs("../.env.test")
+	if err := godotenv.Load(absPath); err != nil {
+		log.Fatal(err)
+	}
+
+	conf := server.NewConfig()
+	Database(conf.DBConfig)
 
 	staticPath := "web/client"
 	s, err = server.New(store, &staticPath)
@@ -28,9 +36,16 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func Database() {
-	databaseURL := "host=localhost dbname=eng_cards_test sslmode=disable"
-	db, err := sql.Open("postgres", databaseURL)
+func Database(conf *server.DatabaseConfig) {
+	dsn := fmt.Sprintf(
+		"host=%s dbname=%s user=%s password=%s sslmode=disable",
+		conf.InstanceConnectionName,
+		conf.DBName,
+		conf.Username,
+		conf.Password,
+	)
+
+	db, err := sql.Open(conf.DriverName, dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,9 +97,9 @@ func seedCard() (int, error) {
 	return c.ID, nil
 }
 
-func testCard(uniqueId ...int) *model.Card {
+func testCard(uniqueID ...int) *model.Card {
 	return &model.Card{
-		Word:    fmt.Sprint("consider", uniqueId),
+		Word:    fmt.Sprint("consider", uniqueID),
 		Meaning: "deem to be",
 	}
 }

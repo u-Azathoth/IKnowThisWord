@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/BurntSushi/toml"
 	"github.com/gorilla/handlers"
+	"github.com/joho/godotenv"
 	server "iKnowThisWord/internal"
 	"iKnowThisWord/internal/store/postgres"
 	"log"
@@ -11,26 +11,25 @@ import (
 )
 
 var (
-	configPath string
 	staticPath string
 )
 
 func init() {
-	flag.StringVar(&configPath, "config-path", "configs/env.toml", "path to a config file")
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
+	}
+
 	flag.StringVar(&staticPath, "static-path", "web/build", "path to a web dist folder")
 }
 
 func main() {
 	flag.Parse()
 
-	// Config
 	config := server.NewConfig()
-	_, err := toml.DecodeFile(configPath, config)
+
+	db, err := postgres.NewDB(config.DBConfig)
 	CheckError(err)
 
-	// Database
-	db, err := postgres.NewDB(config.DatabaseURL)
-	CheckError(err)
 	defer db.Close()
 
 	// Server and Store
