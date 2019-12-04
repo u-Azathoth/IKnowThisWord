@@ -72,6 +72,14 @@ func seedCards(count int) error {
 		return err
 	}
 
+	cards, err := store.Card().Find()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Before write")
+	fmt.Println(len(cards))
+
 	for i := 0; i < count; i++ {
 		err = store.Card().Save(testCard(i))
 		if err != nil {
@@ -79,11 +87,12 @@ func seedCards(count int) error {
 		}
 	}
 
-	cards, err := store.Card().Find()
+	cards, err = store.Card().Find()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	fmt.Println("After write")
 	fmt.Println(len(cards))
 
 	return nil
