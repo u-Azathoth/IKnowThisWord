@@ -1,1 +1,0 @@
-ALTER TABLE card ADD COLUMN recognition_rate numeric(3, 2) DEFAULT 0.50;
