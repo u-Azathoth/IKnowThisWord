@@ -15,19 +15,19 @@ import (
 )
 
 func TestServer_HandleCardFind(t *testing.T) {
-	//err := seedCards(3)
-	//if err != nil {
-	//	t.Fatal(err)
-	//}
-	//
-	//cards, err := store.Card().Find()
-	//if err != nil {
-	//	t.Fatal(err)
-	//}
-	//
-	//fmt.Println("Length of cards, cards")
-	//fmt.Println(len(cards))
-	//fmt.Println(cards)
+	err := seedCards(3)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	cards, err := store.Card().Find()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Println("Length of cards, cards")
+	fmt.Println(len(cards))
+	fmt.Println(cards)
 
 	//req, err := http.NewRequest(http.MethodGet, "/api/cards", nil)
 	//if err != nil {
