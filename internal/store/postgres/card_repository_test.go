@@ -29,7 +29,7 @@ func TestCardRepository_Find(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, len(cards), 3)
+	assert.Equal(t, 3, len(cards))
 }
 
 func TestCardRepository_Delete(t *testing.T) {

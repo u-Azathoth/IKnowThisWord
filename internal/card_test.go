@@ -34,8 +34,8 @@ func TestServer_HandleCardFind(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, rr.Code, http.StatusOK)
-	assert.Equal(t, len(cards), 3)
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, 3, len(cards))
 }
 
 func TestServer_HandleCardSave(t *testing.T) {

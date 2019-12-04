@@ -89,7 +89,7 @@ func seedCard() (int, error) {
 		return 0, err
 	}
 
-	c := testCard(1)
+	c := testCard()
 	err = store.Card().Save(c)
 	if err != nil {
 		return 0, err
