@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func (s *Server) handleCardFind() http.HandlerFunc {
+func (s *Server) HandleCardFind() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cards, err := s.store.Card().Find()
 		if err != nil {
@@ -30,7 +30,7 @@ func (s *Server) handleCardFindByID() http.HandlerFunc {
 	}
 }
 
-func (s *Server) handleCardSave() http.HandlerFunc {
+func (s *Server) HandleCardSave() http.HandlerFunc {
 	type request struct {
 		Word    string `json:"word"`
 		Meaning string `json:"meaning"`

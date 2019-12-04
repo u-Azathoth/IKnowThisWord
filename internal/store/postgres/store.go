@@ -6,7 +6,7 @@ import (
 )
 
 type Store struct {
-	db             *sql.DB
+	DB             *sql.DB
 	cardRepository *CardRepository
 }
 
@@ -23,5 +23,5 @@ func (s *Store) Card() store.CardRepository {
 }
 
 func NewStore(db *sql.DB) *Store {
-	return &Store{db: db}
+	return &Store{DB: db}
 }

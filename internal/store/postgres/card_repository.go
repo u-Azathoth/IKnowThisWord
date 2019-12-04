@@ -11,7 +11,7 @@ type CardRepository struct {
 func (c *CardRepository) Find() ([]*model.Card, error) {
 	cards := []*model.Card{}
 
-	rows, err := c.store.db.Query(
+	rows, err := c.store.DB.Query(
 		"SELECT id, word, meaning, recognition_rate from card order by id",
 	)
 	if err != nil {
@@ -42,7 +42,7 @@ func (c *CardRepository) FindById(string) (*model.Card, error) {
 }
 
 func (c *CardRepository) Save(card *model.Card) error {
-	return c.store.db.QueryRow(
+	return c.store.DB.QueryRow(
 		"INSERT INTO card (word, meaning) VALUES ($1, $2) returning id",
 		card.Word,
 		card.Meaning,
@@ -50,7 +50,7 @@ func (c *CardRepository) Save(card *model.Card) error {
 }
 
 func (c *CardRepository) Delete(id int) (int, error) {
-	res, err := c.store.db.Exec("DELETE FROM card WHERE card.id = $1", id)
+	res, err := c.store.DB.Exec("DELETE FROM card WHERE card.id = $1", id)
 	if err != nil {
 		return 0, err
 	}
