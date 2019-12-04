@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
-	"iKnowThisWord/internal/model"
 	. "iKnowThisWord/internal/store"
 	"net/http"
 	"net/http/httptest"
@@ -21,26 +20,35 @@ func TestServer_HandleCardFind(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	req, err := http.NewRequest(http.MethodGet, "/api/cards", nil)
-	if err != nil {
-		t.Error(err)
-	}
-	rr := httptest.NewRecorder()
-	handler := s.HandleCardFind()
-	handler.ServeHTTP(rr, req)
-
-	fmt.Println(rr.Body.String())
-
-	var cards []model.Card
-	err = json.Unmarshal([]byte(rr.Body.String()), &cards)
+	cards, err := store.Card().Find()
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	fmt.Println("Length of cards, cards")
 	fmt.Println(len(cards))
+	fmt.Println(cards)
 
-	assert.Equal(t, rr.Code, http.StatusOK)
-	assert.Equal(t, len(cards), 3)
+	//req, err := http.NewRequest(http.MethodGet, "/api/cards", nil)
+	//if err != nil {
+	//	t.Error(err)
+	//}
+	//rr := httptest.NewRecorder()
+	//handler := s.HandleCardFind()
+	//handler.ServeHTTP(rr, req)
+	//
+	//fmt.Println(rr.Body.String())
+	//
+	//var cards []model.Card
+	//err = json.Unmarshal([]byte(rr.Body.String()), &cards)
+	//if err != nil {
+	//	t.Fatal(err)
+	//}
+	//
+	//fmt.Println(len(cards))
+	//
+	//assert.Equal(t, rr.Code, http.StatusOK)
+	//assert.Equal(t, len(cards), 3)
 }
 
 func TestServer_HandleCardSave(t *testing.T) {
