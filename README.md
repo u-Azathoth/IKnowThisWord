@@ -6,4 +6,4 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/u-Azathoth/IKnowThisWord)](https://goreportcard.com/report/github.com/u-Azathoth/IKnowThisWord)
 
 
-A platform for remembering your words.
+Smart platform that helps you remember your words
