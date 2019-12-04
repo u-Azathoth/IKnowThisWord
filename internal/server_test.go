@@ -58,6 +58,8 @@ func Database(conf *server.DatabaseConfig) {
 }
 
 func refreshCardTable() error {
+	fmt.Println("1")
+
 	_, err := store.DB.Exec("TRUNCATE card CASCADE")
 	if err != nil {
 		return err
@@ -71,6 +73,8 @@ func seedCards(count int) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Println("2")
 
 	cards, err := store.Card().Find()
 	if err != nil {
