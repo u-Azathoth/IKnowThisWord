@@ -130,7 +130,7 @@ func TestServer_HandleCardFindByID(t *testing.T) {
 
 	c := testCard(1)
 
-	_, err = store.Card().FindById(strconv.Itoa(c.ID))
+	_, err = store.Card().FindByID(strconv.Itoa(c.ID))
 	assert.EqualError(t, err, ErrRecordNotFound.Error())
 
 	err = store.Card().Save(c)
@@ -138,7 +138,7 @@ func TestServer_HandleCardFindByID(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result, err := store.Card().FindById(strconv.Itoa(c.ID))
+	result, err := store.Card().FindByID(strconv.Itoa(c.ID))
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
 	assert.Equal(t, result.Word, c.Word)

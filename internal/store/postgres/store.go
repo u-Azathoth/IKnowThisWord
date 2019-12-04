@@ -5,11 +5,13 @@ import (
 	"iKnowThisWord/internal/store"
 )
 
+// Store ...
 type Store struct {
 	DB             *sql.DB
 	cardRepository *CardRepository
 }
 
+// Card ...
 func (s *Store) Card() store.CardRepository {
 	if s.cardRepository != nil {
 		return s.cardRepository
@@ -22,6 +24,7 @@ func (s *Store) Card() store.CardRepository {
 	return s.cardRepository
 }
 
+// NewStore ...
 func NewStore(db *sql.DB) *Store {
 	return &Store{DB: db}
 }

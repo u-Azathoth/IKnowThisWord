@@ -4,6 +4,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
+// Card ...
 type Card struct {
 	ID              int     `json:"id"`
 	Word            string  `json:"word"`
@@ -11,6 +12,7 @@ type Card struct {
 	RecognitionRate float32 `json:"recognition_rate"`
 }
 
+// Validate ...
 func (c *Card) Validate() error {
 	return validation.ValidateStruct(
 		c,

@@ -2,11 +2,12 @@ package postgres
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // ...
 )
 
-func NewDB(databaseUrl string) (*sql.DB, error) {
-	db, err := sql.Open("postgres", databaseUrl)
+// NewDB ...
+func NewDB(databaseURL string) (*sql.DB, error) {
+	db, err := sql.Open("postgres", databaseURL)
 
 	if err != nil {
 		return nil, err

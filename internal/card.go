@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+// HandleCardFind ...
 func (s *Server) HandleCardFind() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cards, err := s.store.Card().Find()
@@ -20,12 +21,13 @@ func (s *Server) HandleCardFind() http.HandlerFunc {
 	}
 }
 
+// HandleCardFindByID ...
 func (s *Server) HandleCardFindByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		idStr := vars["id"]
 
-		c, err := s.store.Card().FindById(idStr)
+		c, err := s.store.Card().FindByID(idStr)
 		if err != nil {
 			s.error(w, r, http.StatusUnprocessableEntity, err)
 		}
@@ -34,6 +36,7 @@ func (s *Server) HandleCardFindByID() http.HandlerFunc {
 	}
 }
 
+// HandleCardSave ...
 func (s *Server) HandleCardSave() http.HandlerFunc {
 	type request struct {
 		Word    string `json:"word"`
@@ -66,6 +69,7 @@ func (s *Server) HandleCardSave() http.HandlerFunc {
 	}
 }
 
+// HandleCardDelete ...
 func (s *Server) HandleCardDelete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)

@@ -6,10 +6,12 @@ import (
 	"iKnowThisWord/internal/store"
 )
 
+// CardRepository ...
 type CardRepository struct {
 	store *Store
 }
 
+// Find ...
 func (c *CardRepository) Find() ([]*model.Card, error) {
 	cards := []*model.Card{}
 
@@ -39,7 +41,8 @@ func (c *CardRepository) Find() ([]*model.Card, error) {
 	return cards, nil
 }
 
-func (c *CardRepository) FindById(id string) (*model.Card, error) {
+// FindByID ...
+func (c *CardRepository) FindByID(id string) (*model.Card, error) {
 	card := &model.Card{}
 
 	err := c.store.DB.QueryRow(
@@ -56,6 +59,7 @@ func (c *CardRepository) FindById(id string) (*model.Card, error) {
 	return card, nil
 }
 
+// Save ...
 func (c *CardRepository) Save(card *model.Card) error {
 	return c.store.DB.QueryRow(
 		"INSERT INTO card (word, meaning) VALUES ($1, $2) returning id",
@@ -64,6 +68,7 @@ func (c *CardRepository) Save(card *model.Card) error {
 	).Scan(&card.ID)
 }
 
+// Delete ...
 func (c *CardRepository) Delete(id int) (int, error) {
 	res, err := c.store.DB.Exec("DELETE FROM card WHERE card.id = $1", id)
 	if err != nil {
