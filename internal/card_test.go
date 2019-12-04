@@ -3,6 +3,7 @@ package server_test
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"iKnowThisWord/internal/model"
@@ -28,11 +29,15 @@ func TestServer_HandleCardFind(t *testing.T) {
 	handler := s.HandleCardFind()
 	handler.ServeHTTP(rr, req)
 
+	fmt.Println(rr.Body.String())
+
 	var cards []model.Card
 	err = json.Unmarshal([]byte(rr.Body.String()), &cards)
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	fmt.Println(len(cards))
 
 	assert.Equal(t, rr.Code, http.StatusOK)
 	assert.Equal(t, len(cards), 3)
