@@ -37,6 +37,10 @@ func TestMain(m *testing.M) {
 }
 
 func Database(conf *server.DatabaseConfig) {
+
+	fmt.Println(conf)
+	fmt.Println(conf.DBName)
+
 	dsn := fmt.Sprintf(
 		"host=%s dbname=%s user=%s password=%s sslmode=disable",
 		conf.InstanceConnectionName,
