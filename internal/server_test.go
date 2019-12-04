@@ -79,6 +79,13 @@ func seedCards(count int) error {
 		}
 	}
 
+	cards, err := store.Card().Find()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(len(cards))
+
 	return nil
 }
 
