@@ -26,6 +26,8 @@ func TestMain(m *testing.M) {
 	}
 
 	conf := server.NewConfig()
+	conf.DBConfig.DBName = os.Getenv("REPO_DB_NAME")
+
 	Database(conf.DBConfig)
 
 	os.Exit(m.Run())

@@ -26,6 +26,7 @@ func TestMain(m *testing.M) {
 	}
 
 	conf := server.NewConfig()
+	conf.DBConfig.DBName = os.Getenv("SEVER_DN_NAME")
 	Database(conf.DBConfig)
 
 	staticPath := "web/client"
